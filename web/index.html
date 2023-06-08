@@ -16,12 +16,48 @@
         function onClick() {
             navigator.sendBeacon('/log/', 'some message');
         }
+
+        function onLoad() {
+            // FUNCS
+            function composeUrl() {
+                const hostname = location.hostname;
+                const port = ((location.port === '443') || (location.port === ''))
+                    ? '' : `:${location.port}`;
+                const proto = (location.protocol === 'https:') ? 'wss' : 'ws';
+                return `${proto}://${hostname}${port}/`;
+            }
+
+            function onOpen() {
+                console.log(`Open`);
+            }
+
+            function onError() {
+                console.log(`Error`);
+            }
+
+            function onClose() {
+                console.log(`Close`);
+            }
+
+            function onMessage() {
+                console.log(`Message`);
+            }
+
+            // MAIN
+            const url = composeUrl();
+            const sock = new WebSocket(url);
+            sock.addEventListener('open', onOpen);
+            sock.addEventListener('error', onError);
+            sock.addEventListener('close', onClose);
+            sock.addEventListener('message', onMessage);
+        }
     </script>
 </head>
 <body>
 <h1>Remote Console</h1>
 <div>
-    <button onclick="onClick()">Test</button>
+    <button onclick="onClick()">Log</button>
+    <button onclick="onLoad()">Socket</button>
 </div>
 
 <!-- These resources are loaded after landing page is displayed -->

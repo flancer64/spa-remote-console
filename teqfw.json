@@ -11,6 +11,9 @@
         "before": ["TeqFw_Web_Back_App_Server_Handler_Static"],
         "spaces": ["log"]
       }
+    },
+    "sockets": {
+      "Remote_Console_Back_Web_Socket": {}
     }
   }
 }
