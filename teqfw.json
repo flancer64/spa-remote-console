@@ -1,0 +1,8 @@
+{
+  "@teqfw/di": {
+    "autoload": {
+      "ns": "Remote_Console",
+      "path": "./src"
+    }
+  }
+}

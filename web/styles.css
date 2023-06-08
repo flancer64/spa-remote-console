@@ -1,0 +1,34 @@
+:root {
+    --color-set-base: #FB9902;
+    --color-set-darker: #975B02;
+    --color-set-darkest: #342309;
+    --color-set-lighter: #FDC168;
+    --color-set-lightest: #FFF1DC;
+    --padding-grid: 10px;
+    --size-lg: 10px;
+    --size-md: 7px;
+    --size-sm: 5px;
+    --size-xl: 15px;
+    --size-xs: 2px;
+}
+
+/* Overwrite Quasar UI styles (see node_modules/quasar/dist/quasar.css:6440) */
+:root {
+    --q-primary: var(--color-set-base);
+    /*--q-secondary: var(--color-set-lighter);*/
+    /*--q-accent: #9C27B0;*/
+    /*--q-positive: #21BA45;*/
+    /*--q-negative: #C10015;*/
+    /*--q-info: #31CCEC;*/
+    /*--q-warning: #F2C037;*/
+    /*--q-dark: var(--color-set-darker);*/
+    /*--q-dark-page: var(--color-set-darkest);*/
+}
+
+.teq-text-cut {
+    /* cut long text */
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
