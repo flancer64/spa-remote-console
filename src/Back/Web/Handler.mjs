@@ -22,6 +22,8 @@ export default class Remote_Console_Back_Web_Handler {
         const DEF = spec['Remote_Console_Back_Defaults$'];
         /** @type {TeqFw_Core_Shared_Api_Logger} */
         const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
+        /** @type {Remote_Console_Back_Mod_Registry} */
+        const modReg = spec['Remote_Console_Back_Mod_Registry$'];
 
         // MAIN
         logger.setNamespace(this.constructor.name);
@@ -41,7 +43,13 @@ export default class Remote_Console_Back_Web_Handler {
                 // parse input data
                 /** @type {string} */
                 const body = shares[DEF.MOD_WEB.SHARE_REQ_BODY];
-                // TODO: re-translate messages to all connected sockets
+                // re-translate messages to all connected sockets
+                /** @type {WebSocket[]} */
+                const sockets = modReg.all();
+                for (const one of sockets) {
+                    one.send(body);
+                }
+
                 logger.info(body);
                 // finalize HTTP request
                 shares[DEF.MOD_WEB.SHARE_RES_STATUS] = HTTP_STATUS_OK;
