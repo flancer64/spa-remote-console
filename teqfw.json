@@ -4,5 +4,13 @@
       "ns": "Remote_Console",
       "path": "./src"
     }
+  },
+  "@teqfw/web": {
+    "handlers": {
+      "Remote_Console_Back_Web_Handler": {
+        "before": ["TeqFw_Web_Back_App_Server_Handler_Static"],
+        "spaces": ["log"]
+      }
+    }
   }
 }

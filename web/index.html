@@ -12,9 +12,17 @@
             margin: 0;
         }
     </style>
+    <script>
+        function onClick() {
+            navigator.sendBeacon('/log/', 'some message');
+        }
+    </script>
 </head>
 <body>
 <h1>Remote Console</h1>
+<div>
+    <button onclick="onClick()">Test</button>
+</div>
 
 <!-- These resources are loaded after landing page is displayed -->
 <link rel="stylesheet" href="./styles.css">
