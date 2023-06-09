@@ -7,17 +7,47 @@
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
     <title>Remote Console</title>
     <style>
+        :root {
+            --space: 5px;
+        }
+
         HTML, BODY {
+            background-color: black;
             box-sizing: border-box;
+            color: green;
             margin: 0;
+        }
+
+        H1 {
+            font-size: larger;
+        }
+
+        HEADER {
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space);
+        }
+
+        #output {
+            padding: var(--space);
         }
     </style>
     <script>
-        function onClick() {
-            navigator.sendBeacon('/log/', 'some message');
+        // VARS
+        const ID_DISPLAY = 'output';
+        const MAX_ITEMS = 4;
+
+        // FUNCS
+        function onAbout() {
+            window.open('https://github.com/flancer64/spa-remote-console', '_blank');
         }
 
-        function onLoad() {
+        function onTest() {
+            navigator.sendBeacon('/log/', 'Test message from Remote Console.');
+        }
+
+        function socketOpen() {
             // FUNCS
             function composeUrl() {
                 const hostname = location.hostname;
@@ -39,8 +69,30 @@
                 console.log(`Close`);
             }
 
-            function onMessage() {
-                console.log(`Message`);
+            /**
+             * Display log message on UI.
+             * @param {MessageEvent} evt
+             */
+            function onMessage(evt) {
+                // extract log message form the event
+                const log = evt?.data;
+                const elLog = document.createElement('div');
+                elLog.textContent = log;
+                // get display root element
+                const elRoot = document.getElementById(ID_DISPLAY);
+                const total = elRoot.childElementCount;
+                if (total === 0) {
+                    // display is empty
+                    elRoot.appendChild(elLog);
+                } else {
+                    // remove extra items (+1) from display to put new item
+                    if (total >= MAX_ITEMS)
+                        for (let i = 0; i <= (total - MAX_ITEMS); i++)
+                            elRoot.removeChild(elRoot.lastChild);
+                    // add new item to the first position
+                    const elFirst = elRoot.firstChild;
+                    elRoot.insertBefore(elLog, elFirst);
+                }
             }
 
             // MAIN
@@ -54,11 +106,15 @@
     </script>
 </head>
 <body>
-<h1>Remote Console</h1>
-<div>
-    <button onclick="onClick()">Log</button>
-    <button onclick="onLoad()">Socket</button>
-</div>
+<header>
+    <h1>Remote Console</h1>
+    <div>
+        <button onclick="onAbout()">About</button>
+        <button onclick="onTest()">Test</button>
+        <button onclick="socketOpen()">Connect</button>
+    </div>
+</header>
+<main id="output"></main>
 
 <!-- These resources are loaded after landing page is displayed -->
 <link rel="stylesheet" href="./styles.css">

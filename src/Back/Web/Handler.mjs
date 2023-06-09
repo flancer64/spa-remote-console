@@ -22,6 +22,8 @@ export default class Remote_Console_Back_Web_Handler {
         const DEF = spec['Remote_Console_Back_Defaults$'];
         /** @type {TeqFw_Core_Shared_Api_Logger} */
         const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
+        /** @type {TeqFw_Core_Shared_Util_Format.dateTimeForLog|function} */
+        const dateTimeForLog = spec['TeqFw_Core_Shared_Util_Format.dateTimeForLog'];
         /** @type {Remote_Console_Back_Mod_Registry} */
         const modReg = spec['Remote_Console_Back_Mod_Registry$'];
 
@@ -43,11 +45,13 @@ export default class Remote_Console_Back_Web_Handler {
                 // parse input data
                 /** @type {string} */
                 const body = shares[DEF.MOD_WEB.SHARE_REQ_BODY];
+                // add timestamp to the message
+                const msg = `${dateTimeForLog()}: ${body}`;
                 // re-translate messages to all connected sockets
                 /** @type {WebSocket[]} */
                 const sockets = modReg.all();
                 for (const one of sockets) {
-                    one.send(body);
+                    one.send(msg);
                 }
 
                 logger.info(body);
