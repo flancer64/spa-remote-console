@@ -50,11 +50,8 @@ export default class Remote_Console_Back_Web_Handler {
                 // re-translate messages to all connected sockets
                 /** @type {WebSocket[]} */
                 const sockets = modReg.all();
-                for (const one of sockets) {
+                for (const one of sockets)
                     one.send(msg);
-                }
-
-                logger.info(body);
                 // finalize HTTP request
                 shares[DEF.MOD_WEB.SHARE_RES_STATUS] = HTTP_STATUS_OK;
             }
