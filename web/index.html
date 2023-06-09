@@ -40,6 +40,7 @@
     <script>
         // VARS
         const CLASS_DISCONNECTED = 'disconnected';
+        const ID_BTN_CLEAN = 'btnClean';
         const ID_BTN_CONNECT = 'btnConnect';
         const ID_BTN_TEST = 'btnTest';
         const ID_DISPLAY = 'output';
@@ -47,6 +48,7 @@
 
         // FUNCS
         function doSocketOff() {
+            document.getElementById(ID_BTN_CLEAN).disabled = true;
             document.getElementById(ID_BTN_CONNECT).disabled = false;
             document.getElementById(ID_BTN_TEST).disabled = true;
             document.getElementById(ID_DISPLAY).classList.add(CLASS_DISCONNECTED);
@@ -54,6 +56,7 @@
         }
 
         function doSocketOn() {
+            document.getElementById(ID_BTN_CLEAN).disabled = false;
             document.getElementById(ID_BTN_CONNECT).disabled = true;
             document.getElementById(ID_BTN_TEST).disabled = false;
             document.getElementById(ID_DISPLAY).classList.remove(CLASS_DISCONNECTED);
@@ -62,6 +65,12 @@
 
         function onAbout() {
             window.open('https://github.com/flancer64/spa-remote-console', '_blank');
+        }
+
+        function onClean() {
+            const elRoot = document.getElementById(ID_DISPLAY);
+            while (elRoot.firstChild)
+                elRoot.removeChild(elRoot.firstChild);
         }
 
         function onConnect() {
@@ -139,6 +148,7 @@
     <div>
         <button onclick="onAbout()">About</button>
         <button id="btnTest" onclick="onTest()">Test</button>
+        <button id="btnClean" onclick="onClean()">Clean</button>
         <button id="btnConnect" onclick="onConnect()">Connect</button>
     </div>
 </header>
