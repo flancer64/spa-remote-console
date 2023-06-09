@@ -65,9 +65,9 @@ jobs:
             rm -fr ${{env.PRJ}}.old/  
             mkdir ${{env.PRJ}}.new
             unzip ${{env.ZIP}} -d ./${{env.PRJ}}.new/ &> /dev/null
-            sudo /bin/systemctl stop pwa-${{env.PRJ}}.service
+            sudo /bin/systemctl stop ${{env.PRJ}}.service
             mv ./${{env.PRJ}} ./${{env.PRJ}}.old
             mv ./${{env.PRJ}}.new ./${{env.PRJ}}
             cp ./${{env.PRJ}}.old/cfg/local* ./${{env.PRJ}}/cfg/
-            sudo /bin/systemctl start pwa-${{env.PRJ}}.service
+            sudo /bin/systemctl start ${{env.PRJ}}.service
             ls -lh ./${{env.PRJ}}/
