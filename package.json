@@ -20,7 +20,7 @@
     "stop": "node ./bin/tequila.mjs web-server-stop"
   },
   "dependencies": {
-    "@teqfw/web": "^0.9.0"
+    "@teqfw/web": "^0.10.0"
   },
   "engines": {
     "node": ">=17"
