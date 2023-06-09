@@ -32,19 +32,44 @@
         #output {
             padding: var(--space);
         }
+
+        .disconnected {
+            opacity: 0.5;
+        }
     </style>
     <script>
         // VARS
+        const CLASS_DISCONNECTED = 'disconnected';
+        const ID_BTN_CONNECT = 'btnConnect';
+        const ID_BTN_TEST = 'btnTest';
         const ID_DISPLAY = 'output';
-        const MAX_ITEMS = 4;
+        const MAX_ITEMS = 64;
 
         // FUNCS
+        function doSocketOff() {
+            document.getElementById(ID_BTN_CONNECT).disabled = false;
+            document.getElementById(ID_BTN_TEST).disabled = true;
+            document.getElementById(ID_DISPLAY).classList.add(CLASS_DISCONNECTED);
+            document.querySelector('h1').classList.add(CLASS_DISCONNECTED);
+        }
+
+        function doSocketOn() {
+            document.getElementById(ID_BTN_CONNECT).disabled = true;
+            document.getElementById(ID_BTN_TEST).disabled = false;
+            document.getElementById(ID_DISPLAY).classList.remove(CLASS_DISCONNECTED);
+            document.querySelector('h1').classList.remove(CLASS_DISCONNECTED);
+        }
+
         function onAbout() {
             window.open('https://github.com/flancer64/spa-remote-console', '_blank');
         }
 
+        function onConnect() {
+            socketOpen();
+        }
+
         function onTest() {
-            navigator.sendBeacon('/log/', 'Test message from Remote Console.');
+            navigator.sendBeacon('/log/', 'Test message from Remote Console to itself.');
         }
 
         function socketOpen() {
@@ -58,15 +83,15 @@
             }
 
             function onOpen() {
-                console.log(`Open`);
+                doSocketOn();
             }
 
-            function onError() {
-                console.log(`Error`);
+            function onError(e) {
+                console.error(e);
             }
 
             function onClose() {
-                console.log(`Close`);
+                doSocketOff();
             }
 
             /**
@@ -103,20 +128,20 @@
             sock.addEventListener('close', onClose);
             sock.addEventListener('message', onMessage);
         }
+
+        // MAIN
+        document.addEventListener('DOMContentLoaded', socketOpen);
     </script>
 </head>
 <body>
 <header>
-    <h1>Remote Console</h1>
+    <h1 class="disconnected">Remote Console</h1>
     <div>
         <button onclick="onAbout()">About</button>
-        <button onclick="onTest()">Test</button>
-        <button onclick="socketOpen()">Connect</button>
+        <button id="btnTest" onclick="onTest()">Test</button>
+        <button id="btnConnect" onclick="onConnect()">Connect</button>
     </div>
 </header>
-<main id="output"></main>
-
-<!-- These resources are loaded after landing page is displayed -->
-<link rel="stylesheet" href="./styles.css">
+<main id="output" class="disconnected"></main>
 </body>
 </html>
