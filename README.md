@@ -39,3 +39,11 @@ $ npm start
 Go to http://localhost:8080/ and press the `Test` button to validate availability:
 
 ![Web UI Local](./doc/img/web_ui_local.png)
+
+Expose port `8080` to make it available externally, and then send text logs using the Beacon API:
+
+```javascript
+navigator.sendBeacon('http://xxx.xxx.xxx.xxx:8080/log/', 'any log message');
+```
+
+If you are working in a group, all developers will be able to see the same logs through the WebUI.
