@@ -1,5 +1,6 @@
 /**
- * Web server handler to collect incoming log messages sent by `navigator.sendBeacon(URL, message)'.
+ * Web server handler to collect incoming log messages sent by HTTP POST
+ * (for example: `navigator.sendBeacon(URL, message)').
  */
 // MODULE'S IMPORT
 import {constants as H2} from 'node:http2';
@@ -15,7 +16,7 @@ const {
 /**
  * @implements TeqFw_Web_Back_Api_Dispatcher_IHandler
  */
-export default class Remote_Console_Back_Web_Handler {
+export default class Remote_Console_Back_Web_Handler_Log {
     constructor(spec) {
         // DEPS
         /** @type {Remote_Console_Back_Defaults} */
@@ -26,6 +27,8 @@ export default class Remote_Console_Back_Web_Handler {
         const dateTimeForLog = spec['TeqFw_Core_Shared_Util_Format.dateTimeForLog'];
         /** @type {Remote_Console_Back_Mod_Registry} */
         const modReg = spec['Remote_Console_Back_Mod_Registry$'];
+        /** @type {TeqFw_Web_Back_Mod_Address} */
+        const modAddr = spec['TeqFw_Web_Back_Mod_Address$'];
 
         // MAIN
         logger.setNamespace(this.constructor.name);
@@ -36,7 +39,7 @@ export default class Remote_Console_Back_Web_Handler {
          * Process HTTP request if not processed before.
          * @param {module:http.IncomingMessage|module:http2.Http2ServerRequest}req
          * @param {module:http.ServerResponse|module:http2.Http2ServerResponse} res
-         * @memberOf Remote_Console_Back_Web_Handler
+         * @memberOf Remote_Console_Back_Web_Handler_Log
          */
         async function process(req, res) {
             /** @type {Object} */
@@ -47,9 +50,11 @@ export default class Remote_Console_Back_Web_Handler {
                 const body = shares[DEF.MOD_WEB.SHARE_REQ_BODY];
                 // add timestamp to the message
                 const msg = `${dateTimeForLog()}: ${body}`;
+                // get channel
+                const addr = modAddr.parsePath(req.url);
                 // re-translate messages to all connected sockets
                 /** @type {WebSocket[]} */
-                const sockets = modReg.all();
+                const sockets = modReg.all(addr.route);
                 for (const one of sockets)
                     one.send(msg);
                 // finalize HTTP request

@@ -63,6 +63,7 @@
         const ID_BTN_TEST = 'btnTest';
         const ID_DISPLAY = 'output';
         const MAX_ITEMS = 64;
+        const CHANNEL = window.location.pathname; // channel to separate logs (https://console.wiredgeese.com/channel)
 
         // FUNCS
         function doSocketOff() {
@@ -96,7 +97,7 @@
         }
 
         function onTest() {
-            navigator.sendBeacon('/log/', 'Test message from Remote Console to itself.');
+            navigator.sendBeacon(`/log${CHANNEL}`, 'Test message from Remote Console to itself.');
         }
 
         function socketOpen() {
@@ -106,7 +107,7 @@
                 const port = ((location.port === '443') || (location.port === ''))
                     ? '' : `:${location.port}`;
                 const proto = (location.protocol === 'https:') ? 'wss' : 'ws';
-                return `${proto}://${hostname}${port}/`;
+                return `${proto}://${hostname}${port}${CHANNEL}`;
             }
 
             function onOpen() {
