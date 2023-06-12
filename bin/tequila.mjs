@@ -15,12 +15,6 @@ const script = fileURLToPath(url);
 const bin = dirname(script);
 const root = join(bin, '..');
 
-console.log(`URL: ${url}`);
-console.log(`script: ${script}`);
-console.log(`bin: ${bin}`);
-console.log(`root: ${root}`);
-
-
 // FUNCS
 /**
  * Create and setup DI container.
