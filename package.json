@@ -1,6 +1,6 @@
 {
   "name": "@flancer64/spa-remote-console",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Web application to redirect incoming log messages to Web UI.",
   "homepage": "https://github.com/flancer64/spa-remote-console/",
   "bugs": {
@@ -20,7 +20,7 @@
     "stop": "node ./bin/tequila.mjs web-server-stop"
   },
   "dependencies": {
-    "@teqfw/web": "^0.10.0"
+    "@teqfw/web": ">=0.10.0"
   },
   "engines": {
     "node": ">=17"
