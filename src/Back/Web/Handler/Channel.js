@@ -18,17 +18,19 @@ const {
  * @implements TeqFw_Web_Back_Api_Dispatcher_IHandler
  */
 export default class Remote_Console_Back_Web_Handler_Channel {
-    constructor(spec) {
-        // DEPS
-        /** @type {Remote_Console_Back_Defaults} */
-        const DEF = spec['Remote_Console_Back_Defaults$'];
-        /** @type {TeqFw_Core_Shared_Api_Logger} */
-        const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-        /** @type {TeqFw_Core_Back_Config} */
-        const config = spec['TeqFw_Core_Back_Config$'];
-
+    /**
+     * @param {Remote_Console_Back_Defaults} DEF
+     * @param {TeqFw_Core_Shared_Api_Logger} logger -  instance
+     * @param {TeqFw_Core_Back_Config} config
+     */
+    constructor(
+        {
+            Remote_Console_Back_Defaults$: DEF,
+            TeqFw_Core_Shared_Api_Logger$$: logger,
+            TeqFw_Core_Back_Config$: config,
+        }
+    ) {
         // MAIN
-        logger.setNamespace(this.constructor.name);
         const pathToRoot = config.getPathToRoot(); // path to project root
         const pathToIndex = join(pathToRoot, DEF.MOD_WEB.FS_STATIC_ROOT, 'index.html');
         const INDEX = existsSync(pathToIndex) ? pathToIndex : null;

@@ -64,6 +64,8 @@
         const ID_DISPLAY = 'output';
         const MAX_ITEMS = 64;
         const CHANNEL = window.location.pathname; // channel to separate logs (https://console.wiredgeese.com/channel)
+        /** @type {string[]} */
+        const _items = [];
 
         // FUNCS
         function doSocketOff() {
@@ -128,12 +130,13 @@
              */
             function onMessage(evt) {
                 // extract log message form the event
+                /** @type {string} */
                 const log = evt?.data;
                 const elLog = document.createElement('div');
                 elLog.textContent = log;
                 // get display root element
                 const elRoot = document.getElementById(ID_DISPLAY);
-                const total = elRoot.childElementCount;
+                let total = elRoot.childElementCount;
                 if (total === 0) {
                     // display is empty
                     elRoot.appendChild(elLog);
@@ -142,9 +145,25 @@
                     if (total >= MAX_ITEMS)
                         for (let i = 0; i <= (total - MAX_ITEMS); i++)
                             elRoot.removeChild(elRoot.lastChild);
-                    // add new item to the first position
-                    const elFirst = elRoot.firstChild;
-                    elRoot.insertBefore(elLog, elFirst);
+                    // find the appropriate position to insert the new item
+                    const time = log.substring(0, 18); // expected: 02/22 15:32:52.983:
+                    let insertIndex = total;
+                    total = elRoot.childElementCount;
+                    for (let i = 0; i < total; i++) {
+                        const existingLog = elRoot.children[i];
+                        const existingTime = existingLog.textContent.substring(0, 18);
+                        if (time >= existingTime) {
+                            insertIndex = i;
+                            break;
+                        }
+                    }
+                    // insert the new item at the appropriate position
+                    if (insertIndex === 0) {
+                        elRoot.insertBefore(elLog, elRoot.firstChild);
+                    } else {
+                        const elBefore = elRoot.children[insertIndex - 1];
+                        elRoot.insertBefore(elLog, elBefore.nextSibling);
+                    }
                 }
             }
 

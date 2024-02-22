@@ -17,21 +17,23 @@ const {
  * @implements TeqFw_Web_Back_Api_Dispatcher_IHandler
  */
 export default class Remote_Console_Back_Web_Handler_Log {
-    constructor(spec) {
-        // DEPS
-        /** @type {Remote_Console_Back_Defaults} */
-        const DEF = spec['Remote_Console_Back_Defaults$'];
-        /** @type {TeqFw_Core_Shared_Api_Logger} */
-        const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-        /** @type {TeqFw_Core_Shared_Util_Format.dateTimeForLog|function} */
-        const dateTimeForLog = spec['TeqFw_Core_Shared_Util_Format.dateTimeForLog'];
-        /** @type {Remote_Console_Back_Mod_Registry} */
-        const modReg = spec['Remote_Console_Back_Mod_Registry$'];
-        /** @type {TeqFw_Web_Back_Mod_Address} */
-        const modAddr = spec['TeqFw_Web_Back_Mod_Address$'];
-
+    /**
+     * @param {Remote_Console_Back_Defaults} DEF
+     * @param {TeqFw_Core_Shared_Api_Logger} logger -  instance
+     * @param {TeqFw_Core_Shared_Util_Format.dateTimeForLog|function} dateTimeForLog
+     * @param {Remote_Console_Back_Mod_Registry} modReg
+     * @param {TeqFw_Web_Back_Mod_Address} modAddr
+     */
+    constructor(
+        {
+            Remote_Console_Back_Defaults$: DEF,
+            TeqFw_Core_Shared_Api_Logger$$: logger,
+            'TeqFw_Core_Shared_Util_Format.dateTimeForLog': dateTimeForLog,
+            Remote_Console_Back_Mod_Registry$: modReg,
+            TeqFw_Web_Back_Mod_Address$: modAddr,
+        }
+    ) {
         // MAIN
-        logger.setNamespace(this.constructor.name);
         Object.defineProperty(process, 'namespace', {value: this.constructor.name});
 
         // FUNCS
@@ -48,10 +50,10 @@ export default class Remote_Console_Back_Web_Handler_Log {
                 // parse input data
                 /** @type {string} */
                 const body = shares[DEF.MOD_WEB.SHARE_REQ_BODY];
-                // add timestamp to the message
-                const msg = `${dateTimeForLog()}: ${body}`;
                 // get channel
                 const addr = modAddr.parsePath(req.url);
+                // add timestamp to the message
+                const msg = (addr.space === DEF.SHARED.SPACE_LOG) ? `${dateTimeForLog()}: ${body}` : body;
                 // re-translate messages to all connected sockets
                 /** @type {WebSocket[]} */
                 const sockets = modReg.all(addr.route);
@@ -73,7 +75,7 @@ export default class Remote_Console_Back_Web_Handler_Log {
         this.canProcess = function ({method, address} = {}) {
             return (
                 (method === HTTP2_METHOD_POST)
-                && (address?.space === DEF.SHARED.SPACE)
+                && ((address?.space === DEF.SHARED.SPACE_LOG) || address?.space === DEF.SHARED.SPACE_TIMED)
             );
         };
     }

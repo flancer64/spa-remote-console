@@ -2,13 +2,15 @@
  * Registry to collect connected users.
  */
 export default class Remote_Console_Back_Mod_Registry {
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Core_Shared_Api_Logger} */
-        const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-
+    /**
+     * @param {TeqFw_Core_Shared_Api_Logger} logger -  instance
+     */
+    constructor(
+        {
+            TeqFw_Core_Shared_Api_Logger$$: logger,
+        }
+    ) {
         // VARS
-        logger.setNamespace(this.constructor.name);
         const _store = [];
 
         // INSTANCE METHODS

@@ -4,18 +4,16 @@
  * @implements TeqFw_Web_Back_Api_Listener_Socket
  */
 export default class Remote_Console_Back_Web_Socket {
-    constructor(spec) {
-        // DEPS
-        /** @type {TeqFw_Core_Shared_Api_Logger} */
-        const logger = spec['TeqFw_Core_Shared_Api_Logger$$']; // instance
-        /** @type {Remote_Console_Back_Mod_Registry} */
-        const modReg = spec['Remote_Console_Back_Mod_Registry$'];
-        /** @type {TeqFw_Web_Back_Mod_Address} */
-        const modAddr = spec['TeqFw_Web_Back_Mod_Address$'];
-
-        // VARS
-        logger.setNamespace(this.constructor.name);
-
+    /**
+     * @param {Remote_Console_Back_Mod_Registry} modReg
+     * @param {TeqFw_Web_Back_Mod_Address} modAddr
+     */
+    constructor(
+        {
+            Remote_Console_Back_Mod_Registry$: modReg,
+            TeqFw_Web_Back_Mod_Address$: modAddr,
+        }
+    ) {
         // INSTANCE METHODS
 
         this.canProcess = function () {
@@ -38,4 +36,7 @@ export default class Remote_Console_Back_Web_Socket {
 
     }
 
+    process(ws, req) {
+        // do nothing
+    }
 }

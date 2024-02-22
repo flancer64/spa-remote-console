@@ -7,7 +7,8 @@ applications. Mobile browsers lack the Developer Tools panel, which makes debugg
 
 With this app, you have the option to launch it as a standalone server on your local computer for enhanced security.
 Alternatively, you can use our public server at `https://console.wiredgeese.com/`, where all developers can share their
-logs, separated by channels ( you need to know the name of the channel to see logs from this channel).
+logs, separated by channels (you need to know the name of the channel to see logs from this
+channel - https://console.wiredgeese.com/any-random-string/).
 
 ## Overview
 
@@ -62,6 +63,14 @@ navigator.sendBeacon('http://xxx.xxx.xxx.xxx:8080/log/', 'any log message');
 ```
 
 If you are working in a group, all developers will be able to see the same logs through the WebUI.
+
+### Log Modes
+
+There are two spaces for collecting logs:
+
+* `http://xxx.xxx.xxx.xxx:8080/log/[channel]`: Any text message without a timestamp. The server adds the timestamp.
+* `http://xxx.xxx.xxx.xxx:8080/timed/[channel]`: The log record should start with a timestamp 'mm/dd hh:mm:ss.mmm' to be
+  ordered on the front end.
 
 ## Web UI
 

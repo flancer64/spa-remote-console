@@ -9,7 +9,7 @@
     "handlers": {
       "Remote_Console_Back_Web_Handler_Log": {
         "before": ["TeqFw_Web_Back_App_Server_Handler_Static"],
-        "spaces": ["log"]
+        "spaces": ["log", "timed"]
       },
       "Remote_Console_Back_Web_Handler_Channel": {
         "after": ["TeqFw_Web_Back_App_Server_Handler_Static"],

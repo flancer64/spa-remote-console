@@ -1,4 +1,9 @@
-# @flancer64/spa-remote-console: releases
+# @flancer64/spa-remote-console: Releases
+
+# 0.3.0
+
+* Reflects the DI changes.
+* Adds a new space `/timed/` to collect logs with timestamps.
 
 # 0.2.0
 

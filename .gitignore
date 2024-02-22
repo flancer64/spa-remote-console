@@ -10,5 +10,6 @@
 /package-lock.json
 /tmp/
 /var/*.pid
+/var/sw_cache.zip
 /var/store/**
 /web/download/
