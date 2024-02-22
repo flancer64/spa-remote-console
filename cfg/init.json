@@ -2,6 +2,7 @@
   "@teqfw/web": {
     "server": {
       "port": 8080,
+      "useHttp1": true,
       "useWebSocket": true
     }
   }
