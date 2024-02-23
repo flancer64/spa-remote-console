@@ -62,7 +62,6 @@
         const ID_BTN_CONNECT = 'btnConnect';
         const ID_BTN_TEST = 'btnTest';
         const ID_DISPLAY = 'output';
-        const MAX_ITEMS = 64;
         const CHANNEL = window.location.pathname; // channel to separate logs (https://console.wiredgeese.com/channel)
         /** @type {string[]} */
         const _items = [];
@@ -134,7 +133,12 @@
                 const log = evt?.data;
                 const elLog = document.createElement('div');
                 elLog.textContent = log;
-                // get display root element
+                // get the max number of log items
+                const elMax = document.getElementById('MAX');
+                const num = Number.parseInt(elMax.value);
+                const MAX_ITEMS = Number.isNaN(num) || (num <= 0) ? 64 : num;
+                console.log(`MAX_ITEMS: ${MAX_ITEMS}`);
+                // get the root element of the display
                 const elRoot = document.getElementById(ID_DISPLAY);
                 let total = elRoot.childElementCount;
                 if (total === 0) {
@@ -184,6 +188,7 @@
 <header>
     <h1 class="disconnected">Remote Console</h1>
     <div>
+        <label>Max logs: <input id="MAX" type="text" value="64" size="4"></label>
         <button onclick="onAbout()">About</button>
         <button id="btnTest" onclick="onTest()">Test</button>
         <button id="btnClean" onclick="onClean()">Clean</button>
