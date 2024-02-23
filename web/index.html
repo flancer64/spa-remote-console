@@ -63,8 +63,6 @@
         const ID_BTN_TEST = 'btnTest';
         const ID_DISPLAY = 'output';
         const CHANNEL = window.location.pathname; // channel to separate logs (https://console.wiredgeese.com/channel)
-        /** @type {string[]} */
-        const _items = [];
 
         // FUNCS
         function doSocketOff() {
@@ -137,7 +135,6 @@
                 const elMax = document.getElementById('MAX');
                 const num = Number.parseInt(elMax.value);
                 const MAX_ITEMS = Number.isNaN(num) || (num <= 0) ? 64 : num;
-                console.log(`MAX_ITEMS: ${MAX_ITEMS}`);
                 // get the root element of the display
                 const elRoot = document.getElementById(ID_DISPLAY);
                 let total = elRoot.childElementCount;
